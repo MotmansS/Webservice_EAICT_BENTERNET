@@ -4,7 +4,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-
+#include <zmq.h>
+#include <unistd.h>
+#include <assert.h>
 typedef enum { PLAYER_cpu, PLAYER_user } playerType;
 
 void printIntro();

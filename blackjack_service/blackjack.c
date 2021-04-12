@@ -4,7 +4,7 @@ Function: Hands out the cards to the respective array.
 Parameters: Char array, unsigned int player
 Returns:/
 */
-void fillArrayRandom(char array[], unsigned int player)
+void fillArrayRandom(char array[], unsigned int player,void *responder)
 {
 	short int randomnumber = (rand()%12)+1; //13 Kaarten (ACE 1 & ACE 11 is zelfde)
 	char randomchar;
@@ -16,15 +16,15 @@ void fillArrayRandom(char array[], unsigned int player)
 	}
 	/* Speler mag ook kiezen als het aas gepresenteerd wordt */
 	else if(randomnumber == 1 && player == PLAYER_user) { 
-		printf("You have drawn the ace! Do you want it do be a 1 or a 11?\n");
+		zmq_send (responder,"You have drawn the ace! Do you want it do be a 1 or a 11?\n");
 		char tempString[20];
 		while(1)
 		{
-			fgets(tempString,20,stdin);
+			zmq_recv (responder,tempString,20,0);
 			strtok(tempString, "\n");
 			if(strcmp("11",tempString) == 0) { randomnumber = 14; break; }
 			else if(strcmp("1",tempString) == 0) { randomnumber = 1; break; }
-			else { printf("Ehm? Sorry, I don't quite understand that.\n"); }
+			else { zmq_send (responder,"Ehm? Sorry, I don't quite understand that.\n"); }
 		}
 	}
 	
@@ -53,18 +53,18 @@ Function: Print a line of a card
 Parameters: Int cardline(what line you want to print)
 Returns:/
 */
-void kaart1(int cardLine)
+void kaart1(int cardLine, void *responder)
 {
 	switch (cardLine) {
-		case 0: printf(" _________ \t"); break;
-		case 1: printf("|A        |\t"); break;
-		case 2:	printf("|+   *    |\t"); break;
-		case 3: printf("|    !    |\t"); break;
-		case 4: printf("|  *-+-*  |\t"); break;
-		case 5: printf("|    |    |\t"); break;
-		case 6: printf("|   ~~~  +|\t"); break;
-		case 7: printf("|        V|\t"); break;
-		case 8: printf(" ~~~~~~~~~ \t"); break;
+		case 0: zmq_send (responder," _________ \t",13,0); break;
+		case 1: zmq_send (responder,"|A        |\t",13,0); break;
+		case 2:	zmq_send (responder,"|+   *    |\t",13,0); break;
+		case 3: zmq_send (responder,"|    !    |\t",13,0); break;
+		case 4: zmq_send (responder,"|  *-+-*  |\t",13,0); break;
+		case 5: zmq_send (responder,"|    |    |\t",13,0); break;
+		case 6: zmq_send (responder,"|   ~~~  +|\t",13,0); break;
+		case 7: zmq_send (responder,"|        V|\t",13,0); break;
+		case 8: zmq_send (responder," ~~~~~~~~~ \t",13,0); break;
 	}
 }
 /*
@@ -72,18 +72,18 @@ Function: Print a line of a card
 Parameters: Int cardline(what line you want to print)
 Returns:/
 */
-void kaart2(int cardLine)
+void kaart2(int cardLine,void *responder)
 {
 	switch (cardLine) {
-		case 0: printf(" _________ \t"); break;
-		case 1: printf("|2        |\t"); break;
-		case 2:	printf("|+        |\t"); break;
-		case 3: printf("|    +    |\t"); break;
-		case 4: printf("|         |\t"); break;
-		case 5: printf("|    +    |\t"); break;
-		case 6: printf("|        +|\t"); break;
-		case 7: printf("|        Z|\t"); break;
-		case 8: printf(" ~~~~~~~~~ \t"); break;
+		case 0: zmq_send (responder," _________ \t",13,0); break;
+		case 1: zmq_send (responder,"|2        |\t",13,0); break;
+		case 2:	zmq_send (responder,"|+        |\t",13,0); break;
+		case 3: zmq_send (responder,"|    +    |\t",13,0); break;
+		case 4: zmq_send (responder,"|         |\t",13,0); break;
+		case 5: zmq_send (responder,"|    +    |\t",13,0); break;
+		case 6: zmq_send (responder,"|        +|\t",13,0); break;
+		case 7: zmq_send (responder,"|        Z|\t",13,0); break;
+		case 8: zmq_send (responder," ~~~~~~~~~ \t",13,0); break;
 	}
 }
 /*
@@ -91,18 +91,18 @@ Function: Print a line of a card
 Parameters: Int cardline(what line you want to print)
 Returns:/
 */
-void kaart3(int cardLine)
+void kaart3(int cardLine,void *responder)
 {
 	switch (cardLine) {
-		case 0: printf(" _________ \t"); break;
-		case 1: printf("|3        |\t"); break;
-		case 2: printf("|+   +    |\t"); break;
-		case 3: printf("|         |\t"); break;
-		case 4: printf("|    +    |\t"); break;
-		case 5: printf("|         |\t"); break;
-		case 6: printf("|    +   +|\t"); break;
-		case 7: printf("|        E|\t"); break;
-		case 8: printf(" ~~~~~~~~~ \t"); break;
+		case 0: zmq_send (responder," _________ \t",13,0); break;
+		case 1: zmq_send (responder,"|3        |\t",13,0); break;
+		case 2: zmq_send (responder,"|+   +    |\t",13,0); break;
+		case 3: zmq_send (responder,"|         |\t",13,0); break;
+		case 4: zmq_send (responder,"|    +    |\t",13,0); break;
+		case 5: zmq_send (responder,"|         |\t",13,0); break;
+		case 6: zmq_send (responder,"|    +   +|\t",13,0); break;
+		case 7: zmq_send (responder,"|        E|\t",13,0); break;
+		case 8: zmq_send (responder," ~~~~~~~~~ \t",13,0); break;
 	}
 }
 /*
@@ -110,18 +110,18 @@ Function: Print a line of a card
 Parameters: Int cardline(what line you want to print)
 Returns:/
 */
-void kaart4(int cardLine)
+void kaart4(int cardLine,void *responder)
 {
 	switch (cardLine) {
-		case 0: printf(" _________ \t"); break;
-		case 1: printf("|4        |\t"); break;
-		case 2: printf("|+        |\t"); break;
-		case 3: printf("|  +   +  |\t"); break;
-		case 4: printf("|         |\t"); break;
-		case 5: printf("|  +   +  |\t"); break;
-		case 6: printf("|        +|\t"); break;
-		case 7: printf("|        b|\t"); break;
-		case 8: printf(" ~~~~~~~~~ \t"); break;
+		case 0: zmq_send (responder," _________ \t",13,0); break;
+		case 1: zmq_send (responder,"|4        |\t",13,0); break;
+		case 2: zmq_send (responder,"|+        |\t",13,0); break;
+		case 3: zmq_send (responder,"|  +   +  |\t",13,0); break;
+		case 4: zmq_send (responder,"|         |\t",13,0); break;
+		case 5: zmq_send (responder,"|  +   +  |\t",13,0); break;
+		case 6: zmq_send (responder,"|        +|\t",13,0); break;
+		case 7: zmq_send (responder,"|        b|\t",13,0); break;
+		case 8: zmq_send (responder," ~~~~~~~~~ \t",13,0); break;
 	}
 }
 /*
@@ -129,18 +129,18 @@ Function: Print a line of a card
 Parameters: Int cardline(what line you want to print)
 Returns:/
 */
-void kaart5(int cardLine)
+void kaart5(int cardLine,void *responder)
 {
 	switch (cardLine) {
-		case 0: printf(" _________ \t"); break;
-		case 1: printf("|5        |\t"); break;
-		case 2: printf("|+        |\t"); break;
-		case 3: printf("|  +   +  |\t"); break;
-		case 4: printf("|    +    |\t"); break;
-		case 5: printf("|  +   +  |\t"); break;
-		case 6: printf("|        +|\t"); break;
-		case 7: printf("|        S|\t"); break;
-		case 8: printf(" ~~~~~~~~~ \t"); break;
+		case 0: zmq_send (responder," _________ \t",13,0); break;
+		case 1: zmq_send (responder,"|5        |\t",13,0); break;
+		case 2: zmq_send (responder,"|+        |\t",13,0); break;
+		case 3: zmq_send (responder,"|  +   +  |\t",13,0); break;
+		case 4: zmq_send (responder,"|    +    |\t",13,0); break;
+		case 5: zmq_send (responder,"|  +   +  |\t",13,0); break;
+		case 6: zmq_send (responder,"|        +|\t",13,0); break;
+		case 7: zmq_send (responder,"|        S|\t",13,0); break;
+		case 8: zmq_send (responder," ~~~~~~~~~ \t",13,0); break;
 	}
 }
 /*
@@ -148,18 +148,18 @@ Function: Print a line of a card
 Parameters: Int cardline(what line you want to print)
 Returns:/
 */
-void kaart6(int cardLine)
+void kaart6(int cardLine,void *responder)
 {
 	switch (cardLine) {
-		case 0: printf(" _________ \t"); break;
-		case 1: printf("|6        |\t"); break;
-		case 2: printf("|+ +   +  |\t"); break;
-		case 3: printf("|         |\t"); break;
-		case 4: printf("|  +   +  |\t"); break;
-		case 5: printf("|         |\t"); break;
-		case 6: printf("|  +   + +|\t"); break;
-		case 7: printf("|        9|\t"); break;
-		case 8: printf(" ~~~~~~~~~ \t"); break;
+		case 0: zmq_send (responder," _________ \t",13,0); break;
+		case 1: zmq_send (responder,"|6        |\t",13,0); break;
+		case 2: zmq_send (responder,"|+ +   +  |\t",13,0); break;
+		case 3: zmq_send (responder,"|         |\t",13,0); break;
+		case 4: zmq_send (responder,"|  +   +  |\t",13,0); break;
+		case 5: zmq_send (responder,"|         |\t",13,0); break;
+		case 6: zmq_send (responder,"|  +   + +|\t",13,0); break;
+		case 7: zmq_send (responder,"|        9|\t",13,0); break;
+		case 8: zmq_send (responder," ~~~~~~~~~ \t",13,0); break;
 	}
 }
 /*
@@ -167,18 +167,18 @@ Function: Print a line of a card
 Parameters: Int cardline(what line you want to print)
 Returns:/
 */
-void kaart7(int cardLine)
+void kaart7(int cardLine,void *responder)
 {
 	switch (cardLine) {
-		case 0: printf(" _________ \t"); break;
-		case 1: printf("|7        |\t"); break;
-		case 2: printf("|+ +   +  |\t"); break;
-		case 3: printf("|    +    |\t"); break;
-		case 4: printf("|  +   +  |\t"); break;
-		case 5: printf("|         |\t"); break;
-		case 6: printf("|  +   + +|\t"); break;
-		case 7: printf("|        L|\t"); break;
-		case 8: printf(" ~~~~~~~~~ \t"); break;
+		case 0: zmq_send (responder," _________ \t",13,0); break;
+		case 1: zmq_send (responder,"|7        |\t",13,0); break;
+		case 2: zmq_send (responder,"|+ +   +  |\t",13,0); break;
+		case 3: zmq_send (responder,"|    +    |\t",13,0); break;
+		case 4: zmq_send (responder,"|  +   +  |\t",13,0); break;
+		case 5: zmq_send (responder,"|         |\t",13,0); break;
+		case 6: zmq_send (responder,"|  +   + +|\t",13,0); break;
+		case 7: zmq_send (responder,"|        L|\t",13,0); break;
+		case 8: zmq_send (responder," ~~~~~~~~~ \t",13,0); break;
 	}
 
 }
@@ -187,18 +187,18 @@ Function: Print a line of a card
 Parameters: Int cardline(what line you want to print)
 Returns:/
 */
-void kaart8(int cardLine)
+void kaart8(int cardLine,void *responder)
 {
 	switch (cardLine) {
-		case 0: printf(" _________ \t"); break;
-		case 1: printf("|8 +   +  |\t"); break;
-		case 2: printf("|+        |\t"); break;
-		case 3: printf("|  +   +  |\t"); break;
-		case 4: printf("|         |\t"); break;
-		case 5: printf("|  +   +  |\t"); break;
-		case 6: printf("|        +|\t"); break;
-		case 7: printf("|  +   + 8|\t"); break;
-		case 8: printf(" ~~~~~~~~~ \t"); break;
+		case 0: zmq_send (responder," _________ \t",13,0); break;
+		case 1: zmq_send (responder,"|8 +   +  |\t",13,0); break;
+		case 2: zmq_send (responder,"|+        |\t",13,0); break;
+		case 3: zmq_send (responder,"|  +   +  |\t",13,0); break;
+		case 4: zmq_send (responder,"|         |\t",13,0); break;
+		case 5: zmq_send (responder,"|  +   +  |\t",13,0); break;
+		case 6: zmq_send (responder,"|        +|\t",13,0); break;
+		case 7: zmq_send (responder,"|  +   + 8|\t",13,0); break;
+		case 8: zmq_send (responder," ~~~~~~~~~ \t",13,0); break;
 	}
 }
 /*
@@ -206,18 +206,18 @@ Function: Print a line of a card
 Parameters: Int cardline(what line you want to print)
 Returns:/
 */
-void kaart9(int cardLine)
+void kaart9(int cardLine,void *responder)
 {
 	switch (cardLine) {
-		case 0: printf(" _________ \t"); break;
-		case 1: printf("|9 +   +  |\t"); break;
-		case 2: printf("|+        |\t"); break;
-		case 3: printf("|  +   +  |\t"); break;
-		case 4: printf("|    +    |\t"); break;
-		case 5: printf("|  +   +  |\t"); break;
-		case 6: printf("|        +|\t"); break;
-		case 7: printf("|  +   + 6|\t"); break;
-		case 8: printf(" ~~~~~~~~~ \t"); break;
+		case 0: zmq_send (responder," _________ \t",13,0); break;
+		case 1: zmq_send (responder,"|9 +   +  |\t",13,0); break;
+		case 2: zmq_send (responder,"|+        |\t",13,0); break;
+		case 3: zmq_send (responder,"|  +   +  |\t",13,0); break;
+		case 4: zmq_send (responder,"|    +    |\t",13,0); break;
+		case 5: zmq_send (responder,"|  +   +  |\t",13,0); break;
+		case 6: zmq_send (responder,"|        +|\t",13,0); break;
+		case 7: zmq_send (responder,"|  +   + 6|\t",13,0); break;
+		case 8: zmq_send (responder," ~~~~~~~~~ \t",13,0); break;
 	}
 }
 /*
@@ -225,18 +225,18 @@ Function: Print a line of a card
 Parameters: Int cardline(what line you want to print)
 Returns:/
 */
-void kaart10(int cardLine)
+void kaart10(int cardLine,void *responder)
 {
 	switch (cardLine) {
-		case 0: printf(" _________ \t"); break;
-		case 1: printf("|10+   +  |\t"); break;
-		case 2: printf("|+   +    |\t"); break;
-		case 3: printf("|  +   +  |\t"); break;
-		case 4: printf("|         |\t"); break;
-		case 5: printf("|  +   +  |\t"); break;
-		case 6: printf("|    +   +|\t"); break;
-		case 7: printf("|  +   +0l|\t"); break;
-		case 8: printf(" ~~~~~~~~~ \t"); break;
+		case 0: zmq_send (responder," _________ \t",13,0); break;
+		case 1: zmq_send (responder,"|10+   +  |\t",13,0); break;
+		case 2: zmq_send (responder,"|+   +    |\t",13,0); break;
+		case 3: zmq_send (responder,"|  +   +  |\t",13,0); break;
+		case 4: zmq_send (responder,"|         |\t",13,0); break;
+		case 5: zmq_send (responder,"|  +   +  |\t",13,0); break;
+		case 6: zmq_send (responder,"|    +   +|\t",13,0); break;
+		case 7: zmq_send (responder,"|  +   +0l|\t",13,0); break;
+		case 8: zmq_send (responder," ~~~~~~~~~ \t",13,0); break;
 	}
 }
 /*
@@ -244,18 +244,18 @@ Function: Print a line of a card
 Parameters: Int cardline(what line you want to print)
 Returns:/
 */
-void kaart11(int cardLine)
+void kaart11(int cardLine,void *responder)
 {
     switch (cardLine) {
-        case 0: printf(" _________ \t"); break;
-        case 1: printf("|J /~~|_  |\t"); break;
-        case 2: printf("|+ | o`,  |\t"); break;
-        case 3: printf("|  | -|   |\t"); break;
-        case 4: printf("| =~)+(_= |\t"); break;
-        case 5: printf("|   |- |  |\t"); break;
-        case 6: printf("|  `.o | +|\t"); break;
-        case 7: printf("|  ~|__/ P|\t"); break;
-        case 8: printf(" ~~~~~~~~~ \t"); break;
+        case 0: zmq_send (responder," _________ \t",13,0); break;
+        case 1: zmq_send (responder,"|J /~~|_  |\t",13,0); break;
+        case 2: zmq_send (responder,"|+ | o`,  |\t",13,0); break;
+        case 3: zmq_send (responder,"|  | -|   |\t",13,0); break;
+        case 4: zmq_send (responder,"| =~)+(_= |\t",13,0); break;
+        case 5: zmq_send (responder,"|   |- |  |\t",13,0); break;
+        case 6: zmq_send (responder,"|  `.o | +|\t",13,0); break;
+        case 7: zmq_send (responder,"|  ~|__/ P|\t",13,0); break;
+        case 8: zmq_send (responder," ~~~~~~~~~ \t",13,0); break;
     }
 }
 /*
@@ -263,18 +263,18 @@ Function: Print a line of a card
 Parameters: Int cardline(what line you want to print)
 Returns:/
 */
-void kaart12(int cardLine)
+void kaart12(int cardLine,void *responder)
 {
     switch (cardLine) {
-        case 0: printf(" _________ \t"); break;
-        case 1: printf("|Q |~~~|  |\t"); break;
-        case 2: printf("|+ /o,o\\  |\t"); break;
-        case 3: printf("|  \\_-_/  |\t"); break;
-        case 4: printf("| _-~+_-~ |\t"); break;
-        case 5: printf("|  /~-~\\  |\t"); break;
-        case 6: printf("|  \\o`o/ +|\t"); break;
-        case 7: printf("|  |___| Q|\t"); break;
-        case 8: printf(" ~~~~~~~~~ \t"); break;
+        case 0: zmq_send (responder," _________ \t",13,0); break;
+        case 1: zmq_send (responder,"|Q |~~~|  |\t",13,0); break;
+        case 2: zmq_send (responder,"|+ /o,o\\  |\t",13,0); break;
+        case 3: zmq_send (responder,"|  \\_-_/  |\t",13,0); break;
+        case 4: zmq_send (responder,"| _-~+_-~ |\t",13,0); break;
+        case 5: zmq_send (responder,"|  /~-~\\  |\t",13,0); break;
+        case 6: zmq_send (responder,"|  \\o`o/ +|\t",13,0); break;
+        case 7: zmq_send (responder,"|  |___| Q|\t",13,0); break;
+        case 8: zmq_send (responder," ~~~~~~~~~ \t",13,0); break;
     }
 }
 /*
@@ -282,18 +282,18 @@ Function: Print a line of a card
 Parameters: Int cardline(what line you want to print)
 Returns:/
 */
-void kaart13(int cardLine)
+void kaart13(int cardLine,void *responder)
 {
     switch (cardLine) {
-        case 0: printf(" _________ \t"); break;
-        case 1: printf("|K |/|\\|  |\t"); break;
-        case 2: printf("|+ /o,o\\  |\t"); break;
-        case 3: printf("|  \\_-_/  |\t"); break;
-        case 4: printf("| ~-_-~-_ |\t"); break;
-        case 5: printf("|  /~-~\\  |\t"); break;
-        case 6: printf("|  \\o`o/ +|\t"); break;
-        case 7: printf("|  |\\|/| X|\t"); break;
-        case 8: printf(" ~~~~~~~~~ \t"); break;
+        case 0: zmq_send (responder," _________ \t",13,0); break;
+        case 1: zmq_send (responder,"|K |/|\\|  |\t",13,0); break;
+        case 2: zmq_send (responder,"|+ /o,o\\  |\t",13,0); break;
+        case 3: zmq_send (responder,"|  \\_-_/  |\t",13,0); break;
+        case 4: zmq_send (responder,"| ~-_-~-_ |\t",13,0); break;
+        case 5: zmq_send (responder,"|  /~-~\\  |\t",13,0); break;
+        case 6: zmq_send (responder,"|  \\o`o/ +|\t",13,0); break;
+        case 7: zmq_send (responder,"|  |\\|/| X|\t",13,0); break;
+        case 8: zmq_send (responder," ~~~~~~~~~ \t",13,0); break;
     }
 }
 /*
@@ -301,74 +301,77 @@ Function: Prints introduction screen
 Parameters:/
 Returns:/
 */
-void printIntro()
+void printIntro(void *responder)
 {
-printf("d8b\n");
-printf("88P\n");
-printf("d88\n");
-printf("?88   d8P  d8P d8888b888   d8888b d8888b   88bd8b,d88b  d8888b\n");
-printf("d88  d8P' d8P'd8b_,dP?88  d8P' `Pd8P' ?88  88P'`?8P'?8bd8b_,dP\n");
-printf("?8b ,88b ,88' 88b     88b 88b    88b  d88 d88  d88  88P88b\n");
-printf("`?888P'888P'  `?888P'  88b`?888P'`?8888P'd88' d88'  88b`?888P'\n");
-printf("\n");
-printf("\n");
-printf("\n");
-printf("\n");
-printf("d8P\n");
-printf("d888888P\n");
-printf("?88'   d8888b\n");
-printf("88P   d8P' ?88\n");
-printf("88b   88b  d88\n");
-printf("`?8b  `?8888P'\n");
-printf("\n");
-printf("\n");
-printf("\n");
-printf("d8b       d8b                   d8b          d8,                   d8b\n");
-printf("?88       88P                   ?88         `8P                    ?88\n");
-printf("88b     d88                     88b                                88b\n");
-printf("888888b 888   d888b8b   d8888b  888  d88'  d88   d888b8b   d8888b  888  d88'\n");
-printf("88P `?8b?88  d8P' ?88  d8P' `P  888bd8P'   ?88  d8P' ?88  d8P' `P  888bd8P'\n");
-printf("d88,  d88 88b 88b  ,88b 88b     d88888b      88b 88b  ,88b 88b     d88888b\n");
-printf("d88'`?88P'  88b`?88P'`88b`?888P'd88' `?88b,   `88b`?88P'`88b`?888P'd88' `?88b,\n");
-printf("					       )88\n");
-printf("			  		     ,88P\n");
-printf("`					    ?888P\n");
+zmq_send (responder,"d8b\n");
+zmq_send (responder,"88P\n",5,0);
+zmq_send (responder,"d88\n",5,0);
+zmq_send (responder,"?88   d8P  d8P d8888b888   d8888b d8888b   88bd8b,d88b  d8888b\n",64,0);
+zmq_send (responder,"d88  d8P' d8P'd8b_,dP?88  d8P' `Pd8P' ?88  88P'`?8P'?8bd8b_,dP\n",64,0);
+zmq_send (responder,"?8b ,88b ,88' 88b     88b 88b    88b  d88 d88  d88  88P88b\n",60,0);
+zmq_send (responder,"`?888P'888P'  `?888P'  88b`?888P'`?8888P'd88' d88'  88b`?888P'\n",64,0);
+zmq_send (responder,"\n",2,0);
+zmq_send (responder,"\n",2,0);
+zmq_send (responder,"\n",2,0);
+zmq_send (responder,"\n",2,0);
+zmq_send (responder,"d8P\n",5,0);
+zmq_send (responder,"d888888P\n",10,0);
+zmq_send (responder,"?88'   d8888b\n"15,0);
+zmq_send (responder,"88P   d8P' ?88\n"16,0);
+zmq_send (responder,"88b   88b  d88\n",16,0);
+zmq_send (responder,"`?8b  `?8888P'\n"16,0);
+zmq_send (responder,"\n",2,0);
+zmq_send (responder,"\n",2,0);
+zmq_send (responder,"\n",2,0);
+zmq_send (responder,"d8b       d8b                   d8b          d8,                   d8b\n",72,0);
+zmq_send (responder,"?88       88P                   ?88         `8P                    ?88\n",72,0);
+zmq_send (responder,"88b     d88                     88b                                88b\n",72,0);
+zmq_send (responder,"888888b 888   d888b8b   d8888b  888  d88'  d88   d888b8b   d8888b  888  d88'\n",78,0);
+zmq_send (responder,"88P `?8b?88  d8P' ?88  d8P' `P  888bd8P'   ?88  d8P' ?88  d8P' `P  888bd8P'\n",77,0);
+zmq_send (responder,"d88,  d88 88b 88b  ,88b 88b     d88888b      88b 88b  ,88b 88b     d88888b\n",76,0);
+zmq_send (responder,"d88'`?88P'  88b`?88P'`88b`?888P'd88' `?88b,   `88b`?88P'`88b`?888P'd88' `?88b,\n",80,0);
+zmq_send (responder,"					       )88\n",17,0);
+zmq_send (responder,"			  		     ,88P\n",18,0);
+zmq_send (responder,"`					    ?888P\n",17,0);
 
 
 
-    printf("Haal meer dan je opponent, maar minder dan 22!\n");
+    zmq_send (responder,"Haal meer dan je opponent, maar minder dan 22!\n",48,0);
 }
 /*
 Function: Prints cards side by side
 Parameters:char array[](the hand you wish to draw from),short int cardLines(the height of a card) 
 Returns:/
 */
-void drawHand(char array[], short int cardLines)
+void drawHand(char array[], short int cardLines,void *responder)
 {
 	for(int i=0;i<9;i++) { 	    //Kaarten bestaan uit 0-8 regels => 9regels
 		for(int a=0;a<strlen(array);a++) { //Loop array af
 			switch(array[a]){ 			   //Array positie
-				case '1': kaart1(i); break;//ACE1
-				case '2': kaart2(i); break;
-				case '3': kaart3(i); break;
-				case '4': kaart4(i); break;
-				case '5': kaart5(i); break;
-				case '6': kaart6(i); break;
-				case '7': kaart7(i); break;
-				case '8': kaart8(i); break;
-				case '9': kaart9(i); break;
-				case 'A': kaart10(i); break;
-				case 'B': kaart11(i); break;//JACK
-				case 'C': kaart12(i); break;//QUEEN
-				case 'D': kaart13(i); break;//KING
-				case 'E': kaart1(i); break; //ACE2
+				case '1': kaart1(i,*responder); break;//ACE1
+				case '2': kaart2(i,*responder); break;
+				case '3': kaart3(i,*responder); break;
+				case '4': kaart4(i,*responder); break;
+				case '5': kaart5(i,*responder); break;
+				case '6': kaart6(i,*responder); break;
+				case '7': kaart7(i,*responder); break;
+				case '8': kaart8(i,*responder); break;
+				case '9': kaart9(i,*responder); break;
+				case 'A': kaart10(i,*responder); break;
+				case 'B': kaart11(i,*responder); break;//JACK
+				case 'C': kaart12(i,*responder); break;//QUEEN
+				case 'D': kaart13(i,*responder); break;//KING
+				case 'E': kaart1(i,*responder); break; //ACE2
                 case 'G': break; 
-				default: printf("This element does not exist: %c",array[a]);break;
+				default: 
+				zmq_send (responder,"This element does not exist: %c",32,0);
+				zmq_send (responder,array[a],1,0);
+				break;
 			}
 		}
-		printf("\n");
+		zmq_send (responder,"\n",2,0);
 	}
-	printf("\n");
+	zmq_send (responder,"\n",2,0);
 	
 }
 /*
@@ -376,12 +379,12 @@ Function: Check who won the game
 Parameters:char playerHand[], char computerHand[] (the two hands you wish to compare)
 Returns:/
 */
-void checkVictory(char playerHand[], char computerHand[])
+void checkVictory(char playerHand[], char computerHand[], void *responder)
 {
-	if(arrayToScore(playerHand) > 21 && arrayToScore(computerHand) > 21) { printf("Draw!\n"); exit(0); }
-	else if(arrayToScore(playerHand) > 21) { printf("THE HOUSE ALLWAYS WINS\n"); exit(0); }
-	else if (arrayToScore(playerHand) > arrayToScore(computerHand) && arrayToScore(playerHand) < 22) { printf("U WON\n"); }
- 	else if(arrayToScore(playerHand) < arrayToScore(computerHand)) { printf("THE HOUSE ALLWAYS WINS\n"); exit(0); }
+	if(arrayToScore(playerHand) > 21 && arrayToScore(computerHand) > 21) { zmq_send (responder,"Draw!\n",7,0); exit(0); }
+	else if(arrayToScore(playerHand) > 21) { zmq_send (responder,"THE HOUSE ALLWAYS WINS\n",24,0); exit(0); }
+	else if (arrayToScore(playerHand) > arrayToScore(computerHand) && arrayToScore(playerHand) < 22) { zmq_send (responder,"U WON\n",7,0); }
+ 	else if(arrayToScore(playerHand) < arrayToScore(computerHand)) { zmq_send (responder,"THE HOUSE ALLWAYS WINS\n",24,0); exit(0); }
 }
 /*
 Function: Calculates the value of the players hand
@@ -419,7 +422,7 @@ Function: visualize everything in game
 Parameters:short int cardLines (height of cards), char playerHand[], char computerHand[] (two arrays)
 Returns:/
 */
-void visualize(short int cardLines, char playerHand[], char computerHand[])
+void visualize(short int cardLines, char playerHand[], char computerHand[],void *responder)
 {
 	system("@cls||clear");
 	puts("The house:\n");
@@ -428,38 +431,38 @@ void visualize(short int cardLines, char playerHand[], char computerHand[])
     drawHand(playerHand, cardLines);
 }
 
-void drawMap(){
-	printf("\n\n");
-	printf("__________--^-^-\\.             ____                             __----/^\\.\n");
-	printf("|\\/.                \\__.      ___/   ||                        ___/       _/._-_    .\n");
-	printf("|                      \\.    /.     /.                __    __/          /__/   \\/^^\\___-__.\n");
-	printf("|                       L-^-/.     /.                 \\.\\_--                               \\.\n");
-	printf("|                                 /                  _/                                 _/\\/.\n");
-	printf("|.                               |                 _/.                            __ __/\n");
-	printf(" \\.                              /.               /                           ___/.//\n");
-	printf("  \\__                           /                |                           /    \\/.\n");
-	printf("     \\________         __ _____.\\.                \\_.          ____--_   /\\_ \\    \n");
-	printf("              \\__.    /  V.    \\ \\                  \\__      _/.      \\_/   //\n");
-	printf("                 \\   /.         \\/.                    \\.  _/.             //\n");
-	printf("                  \\_/.                                   \\_/             \n\n");
-	printf("           UNITED STATES                                   SOVIET UNION\n");
+void drawMap(void *responder){
+	zmq_send (responder,"\n\n");
+	zmq_send (responder,"__________--^-^-\\.             ____                             __----/^\\.\n");
+	zmq_send (responder,"|\\/.                \\__.      ___/   ||                        ___/       _/._-_    .\n");
+	zmq_send (responder,"|                      \\.    /.     /.                __    __/          /__/   \\/^^\\___-__.\n");
+	zmq_send (responder,"|                       L-^-/.     /.                 \\.\\_--                               \\.\n");
+	zmq_send (responder,"|                                 /                  _/                                 _/\\/.\n");
+	zmq_send (responder,"|.                               |                 _/.                            __ __/\n");
+	zmq_send (responder," \\.                              /.               /                           ___/.//\n");
+	zmq_send (responder,"  \\__                           /                |                           /    \\/.\n");
+	zmq_send (responder,"     \\________         __ _____.\\.                \\_.          ____--_   /\\_ \\    \n");
+	zmq_send (responder,"              \\__.    /  V.    \\ \\                  \\__      _/.      \\_/   //\n");
+	zmq_send (responder,"                 \\   /.         \\/.                    \\.  _/.             //\n");
+	zmq_send (responder,"                  \\_/.                                   \\_/             \n\n");
+	zmq_send (responder,"           UNITED STATES                                   SOVIET UNION\n");
 
 }
 
-void playEasterEgg(){
-	printf("Password: ");
+void playEasterEgg(void *responder){
+	zmq_send (responder,"Password: ");
 	char doorgaan[30];
-	fgets(doorgaan,20,stdin);
+	zmq_recv(doorgaan,20,stdin);
 	strtok(doorgaan, "\n");
 		if(strcmp("Stan",doorgaan) == 0 || strcmp("Leon",doorgaan) == 0 || strcmp("stan",doorgaan) == 0 || strcmp("leon",doorgaan) == 0 || strcmp("Joshua",doorgaan) == 0 || strcmp("joshua",doorgaan) == 0) { 
 			system("clear");
-			printf("Hello Proffesor Gilissen shall we play a game?\n");
-			fgets(doorgaan,20,stdin);
+			zmq_send (responder,"Hello Proffesor Gilissen shall we play a game?\n");
+			zmq_recv(responder,doorgaan,30,0);
 			strtok(doorgaan, "\n");
 			if(strcmp("y",doorgaan) == 0 || strcmp("yes",doorgaan) == 0 || strcmp("Yes",doorgaan) == 0 || strcmp("list games",doorgaan) == 0 || strcmp("List games",doorgaan) == 0 || strcmp("List Games",doorgaan) == 0) { 
 				system("clear");
-				printf("Blackjack \nGlobal Thermo Nuclear War\n\n");
-				fgets(doorgaan,30,stdin);
+				zmq_send (responder,"Blackjack \nGlobal Thermo Nuclear War\n\n");
+				zmq_recv(responder,doorgaan,30,0);
 				strtok(doorgaan, "\n");
 				if(strcmp("Global Thermo Nuclear War",doorgaan) == 0 || strcmp("global thermo nuclear war",doorgaan) == 0) { 
 					drawMap();
