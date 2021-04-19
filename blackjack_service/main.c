@@ -15,7 +15,7 @@ int main(void)
 	int rc = zmq_bind(responder, "tcp://*:5555");
 	assert(rc == 0);
 
-	printf("\033[0;32m"); //Groene console
+	zmq_send(responder,"\033[0;32m",8,0); //Groene console
 	srand(time(NULL));	  //Kaarten randomizen
 	printIntro(responder);
 
@@ -24,8 +24,8 @@ int main(void)
 		char doorgaan[20];
 		while (arrayToScore(playerHand) < 21 && arrayToScore(computerHand) < 21)
 		{
-			puts("Do you want to continue y/n?: ");
-			zmq_recv(responder,doorgaan, 20,0 );
+			zmq_send("Do you want to continue y/n?: ",31,0);
+			zmq_recv(responder,doorgaan, 1,0 );
 			strtok(doorgaan, "\n");
 			if (strcmp("y", doorgaan) == 0 || strcmp("Y", doorgaan) == 0)
 			{
