@@ -1,108 +1,99 @@
 import zmq
 import random
+import time
+import string
 from dataclasses import dataclass
 # ZeroMQ Context
 context = zmq.Context()
 
-PubSock = context.socket(zmq.PUB)
+PubSock = context.socket(zmq.PUSH)
 SubSock = context.socket(zmq.SUB)
 
 
-SubSock.connect("tcp://benternet.backup.pxl-ea-ict.be:24041")
+SubSock.connect("tcp://benternet.backup.pxl-ea-ict.be:24042")
+PubSock.connect("tcp://benternet.backup.pxl-ea-ict.be:24041")
 SubSock.setsockopt_string(zmq.SUBSCRIBE, "BlackJackService>Client>")
-
-PubSock = context.socket(zmq.PUB)
-PubSock.connect("tcp://benternet.backup.pxl-ea-ict.be:24042")
-
-@dataclass
-class Player:
-	name: ''
-	score : 0
-	DealerScore: 0
-	randomkaart: 0 
-	randomdealerkaart: 0 
-	pcontinue: ''
-	computerhand : 'GGGGGGGGGGG'
-	playerhand: 'GGGGGGGGGGG'
-	
+translatearr = '123456789ABCD'
+class Playr:
+	def __init__(self, name, score,DealerScore,randomkaart,randomdealerkaart,pcontinue,computerhand,playerhand,bufferhand):
+		self.name= name
+		self.score =score
+		self.DealerScore=DealerScore
+		self.randomkaart= randomkaart 
+		self.randomdealerkaart= randomdealerkaart 
+		self.pcontinue= pcontinue
+		self.computerhand = computerhand
+		self.playerhand=playerhand
+		self.bufferhand= bufferhand
+def convert(s):
+  
+    # initialization of string to ""
+    new = ""
+  
+    # traverse in the string 
+    for x in s:
+        new += x 
+  
+    # return string 
+    return new
+    	
 playerlist = []
 while True:
 	print("we tried so hard")
 	
-	Player('',0,0,0,0,'','GGGGGGGGGGG','GGGGGGGGGGG')
-	playerlist.append(Player)
+	
+	playerlist.append(Playr('',0,0,0,0,'',"GGGGGGGGG","GGGGGGGGG","GGGGGGGGG"))
 
-	for players in playerlist: 
-		players.pcontinue =  SubSock.recv()
-		print(Players.pcontinue)
-		if players.pcontinue != 'y' and  players.pcontinue  !='n' :
+	for Player in playerlist: 
+		Player.name  =  SubSock.recv_string().split('>')[-1]
+		print(Player.name )
+		
+		if Player.name != 'y' and  Player.name  !='n' :
 			#message [prefix][message]
-			message = "BlackJackService>Player>{name}".format(name = players.pcontinue )
-			PubSock.send(message)
-			player.name = players.pcontinue
+			message = "BlackJackService>Player>{name}".format(name = Player.name)
+			
+			print(len(message))
+			print(message)
+			PubSock.send_string(message)
+			print("name sent")
+			
+			SubSock.setsockopt_string(zmq.SUBSCRIBE, "BlackJackService>Client>{name}".format(name = Player.name ))
+			print("BlackJackService>Client>{name}".format(name = Player.name ))
 			print("we got this far1")
+			PubSock.send_string(message)
 			for i in range(9):
-
-				players.pcontinue = SubSock.recv()
-				if players.pcontinue == 'y':
+				print("we got this far 11")
+					
+				Player.pcontinue = SubSock.recv_string().split('>')[-1]
+				print(Player.pcontinue)
+				
+				print("we recieved the y or no")
+				print(Player.pcontinue)
+				if Player.pcontinue == 'y':
 					print("we got to The Yes")
-					players.randomkaart = random.randint(1,13)
-					players.randomdealerkaart = random.randint(1,13)
-					message = " BlackJackService>Player>{name}>DrawnCard>{card}".format(name = players.name, card =players.randomkaart )
-					PubSock.send(message)
-					if players.randomkaart == 10:
-						message = " BlackJackService>Player>{name}>DrawnCard>A".format(name = players.name)
-						players.playerhand[i] == A
-					if players.randomkaart == 11:
-						message = " BlackJackService>Player>{name}>DrawnCard>B".format(name = players.name)
-						players.playerhand[i] == B
-					if players.randomkaart == 12:
-						message = " BlackJackService>Player>{name}>DrawnCard>C".format(name = players.name)
-						players.playerhand[i] == C
-					if players.randomkaart == 13:
-						message = " BlackJackService>Player>{name}>DrawnCard>D".format(name = players.name)
-						players.playerhand[i] == D
-					if players.randomkaart > 9:
-						players.randomkaart = 10; 
-					players.playerhand[i] == players.randomkaart
-					players.score += randomkaart
-					message = " BlackJackService>Player>{name}>PlayerHand>{hand}".format(hand = players.playerhand)
-					PubSock.send(message)
-					message = " BlackJackService>Player>{name}>Score>{score}".format(score = players.score)
-					PubSock.send(message)
+					Player.randomkaart = random.randint(0,12)
+					Player.randomdealerkaart = random.randint(0,12)
+					BuffListp= list(Player.playerhand)
+					BuffListp[i] = translatearr[Player.randomkaart]
+					Player.playerhand =  convert(BuffListp)
+					message = "BlackJackService>Player>{name}>PlayerHand>{hand}".format(name = Player.name,hand = Player.playerhand)
+					PubSock.send_string(message)
 					print("we got to Draw A card")
-					if DealerScore <= 16 :
-						if players.randomdealerkaart == 10:
-							message = " BlackJackService>Player>{name}>DrawnCard>A".format(name = players.name)
-							players.randomdealerkaart[i] == A
-						if players.randomdealerkaart == 11:
-							message = " BlackJackService>Player>{name}>DrawnCard>B".format(name = players.name)
-							players.computerhand[i] == B
-						if players.randomdealerkaart == 12:
-							message = " BlackJackService>Player>{name}>DrawnCard>C".format(name = players.name)
-							players.computerhand[i] == C
-						if players.randomdealerkaart == 13:
-							message = " BlackJackService>Player>{name}>DrawnCard>D".format(name = players.name)
-							players.computerhand[i] == D
-						if players.randomdealerkaart > 9:
-							players.randomdealerkaart = 10; 
-						players.computerhand[i] == players.randomdealerkaart
-						score += randomkaart
-						message = " BlackJackService>Player>{name}>ComputerHand>{hand}".format(hand = players.computerhand)
-						PubSock.send(message)					
-						message = "BlackJackService>{name}>Dealer>DrawnCard>{card}".format(name = players.name ,card =players.randomdealerkaart)
-						PubSock.send(message)
-						DealerScore += randomdealerkaart
-						message = "BlackJackService>{name}>DealerScore>{score}".format(score = players.DealerScore)
-						PubSock.send(message)
-						print("we got to Play")
-				elif players.pcontinue == 'n':
-					if (score < 22 and score > DealerScore )or (score < 22 and DealerScore > 22):
-						message = " BlackJackService>Player>{name}>Score>WIN"
-					else:
-						message = " BlackJackService>Player>{name}>Score>LOSE"
-				PubSock.send(message)
-				score = 0
-				DealerScore = 0
-				break
+					BuffListc= list(Player.computerhand)
+					BuffListc[i] = translatearr[Player.randomdealerkaart]
+					Player.computerhand =  convert(BuffListc)
+					message = "BlackJackService>Player>{name}>ComputerHand>{hand}".format(name = Player.name,hand = Player.computerhand)
+					print(message)			
+					PubSock.send_string(message)					
+					print("we got to Play")
+				elif Player.pcontinue == 'n':
+					#if (Player.score < 22 and score > DealerScore )or (score < 22 and DealerScore > 22):
+					#	message = "BlackJackService>Player>{name}>Score>WIN"
+					#else:
+					#	message = "BlackJackService>Player>{name}>Score>LOSE"
+					del playerlist[Player]
+					#PubSock.send_string(message)
+					#score = 0
+					#DealerScore = 0
+					break
 				
