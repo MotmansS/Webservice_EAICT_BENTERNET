@@ -378,7 +378,7 @@ Returns:/
 */
 void visualize(short int cardLines, char playerHand[], char computerHand[])
 {
-	system("@cls||clear");
+	//system("@cls||clear");
 	puts("The house:\n");
 	drawHand(computerHand, cardLines);
 	puts("---------------------------------------------------------------------------------------------------- \n You:\n");
