@@ -39,4 +39,12 @@ To run the service:
 If the client is stopped prematurely, the service will halt resulting in a non-working service.
 Avoid this at any cost
 
+## Blockdiagram
+
+<object data="https://github.com/MotmansS/Webservice_EAICT_BENTERNET/blob/dev/BlokdiagramNP.pdf" type="application/pdf" width="700px" height="700px">
+    <embed src="https://github.com/MotmansS/Webservice_EAICT_BENTERNET/blob/dev/BlokdiagramNP.pdf">
+        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="https://github.com/MotmansS/Webservice_EAICT_BENTERNET/blob/dev/BlokdiagramNP.pdf">Download PDF</a>.</p>
+    </embed>
+</object>
+
 
